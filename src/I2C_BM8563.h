@@ -7,17 +7,17 @@
 
 typedef struct
 {
-  uint8_t Hours;
-  uint8_t Minutes;
-  uint8_t Seconds;
+  uint8_t hours;
+  uint8_t minutes;
+  uint8_t seconds;
 } I2C_BM8563_TimeTypeDef;
 
 typedef struct
 {
-  uint8_t WeekDay;
-  uint8_t Month;
-  uint8_t Date;
-  uint16_t Year;
+  uint8_t weekDay;
+  uint8_t month;
+  uint8_t date;
+  uint16_t year;
 } I2C_BM8563_DateTypeDef;
 
 class I2C_BM8563 {
@@ -26,15 +26,16 @@ class I2C_BM8563 {
 
     void begin(void);
 
-    void SetTime(I2C_BM8563_TimeTypeDef* I2C_BM8563_TimeStruct);
-    void SetData(I2C_BM8563_DateTypeDef* I2C_BM8563_DateStruct);
+    void getTime(I2C_BM8563_TimeTypeDef* I2C_BM8563_TimeStruct);
+    void getDate(I2C_BM8563_DateTypeDef* I2C_BM8563_DateStruct);
 
-    void GetTime(I2C_BM8563_TimeTypeDef* I2C_BM8563_TimeStruct);
-    void GetData(I2C_BM8563_DateTypeDef* I2C_BM8563_DateStruct);
+    void setTime(I2C_BM8563_TimeTypeDef* I2C_BM8563_TimeStruct);
+    void setDate(I2C_BM8563_DateTypeDef* I2C_BM8563_DateStruct);
 
   private:
-    uint8_t Bcd2ToByte(uint8_t Value);
-    uint8_t ByteToBcd2(uint8_t Value);
+    uint8_t bcd2ToByte(uint8_t value);
+    uint8_t byteToBcd2(uint8_t value);
+
     uint8_t trdata[7];
     TwoWire *_i2cPort;
     int _deviceAddress;

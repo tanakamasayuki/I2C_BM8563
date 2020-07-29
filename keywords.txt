@@ -15,10 +15,10 @@ I2C_BM8563_TimeTypeDef	KEYWORD1
 #######################################
 
 begin	KEYWORD2
-SetTime	KEYWORD2
-SetData	KEYWORD2
-GetTime	KEYWORD2
-GetData	KEYWORD2
+getTime	KEYWORD2
+getDate	KEYWORD2
+setTime	KEYWORD2
+setDate	KEYWORD2
 
 #######################################
 # Constants (LITERAL1)

@@ -35,18 +35,18 @@ void setup() {
   if (getLocalTime(&timeInfo)) {
     // Set RTC time
     I2C_BM8563_TimeTypeDef timeStruct;
-    timeStruct.Hours   = timeInfo.tm_hour;
-    timeStruct.Minutes = timeInfo.tm_min;
-    timeStruct.Seconds = timeInfo.tm_sec;
-    rtc.SetTime(&timeStruct);
+    timeStruct.hours   = timeInfo.tm_hour;
+    timeStruct.minutes = timeInfo.tm_min;
+    timeStruct.seconds = timeInfo.tm_sec;
+    rtc.setTime(&timeStruct);
 
     // Set RTC Date
     I2C_BM8563_DateTypeDef dateStruct;
-    dateStruct.WeekDay = timeInfo.tm_wday;
-    dateStruct.Month   = timeInfo.tm_mon + 1;
-    dateStruct.Date    = timeInfo.tm_mday;
-    dateStruct.Year    = timeInfo.tm_year + 1900;
-    rtc.SetData(&dateStruct);
+    dateStruct.weekDay = timeInfo.tm_wday;
+    dateStruct.month   = timeInfo.tm_mon + 1;
+    dateStruct.date    = timeInfo.tm_mday;
+    dateStruct.year    = timeInfo.tm_year + 1900;
+    rtc.setDate(&dateStruct);
   }
 }
 
@@ -55,17 +55,17 @@ void loop() {
   I2C_BM8563_TimeTypeDef timeStruct;
 
   // Get RTC
-  rtc.GetData(&dateStruct);
-  rtc.GetTime(&timeStruct);
+  rtc.getDate(&dateStruct);
+  rtc.getTime(&timeStruct);
 
   // Print RTC
   Serial.printf("%04d/%02d/%02d %02d:%02d:%02d\n",
-                dateStruct.Year,
-                dateStruct.Month,
-                dateStruct.Date,
-                timeStruct.Hours,
-                timeStruct.Minutes,
-                timeStruct.Seconds
+                dateStruct.year,
+                dateStruct.month,
+                dateStruct.date,
+                timeStruct.hours,
+                timeStruct.minutes,
+                timeStruct.seconds
                );
 
   // Wait

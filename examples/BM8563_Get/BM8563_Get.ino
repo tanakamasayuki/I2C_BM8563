@@ -19,17 +19,17 @@ void loop() {
   I2C_BM8563_TimeTypeDef timeStruct;
 
   // Get RTC
-  rtc.GetData(&dateStruct);
-  rtc.GetTime(&timeStruct);
+  rtc.getDate(&dateStruct);
+  rtc.getTime(&timeStruct);
 
   // Print RTC
   Serial.printf("%04d/%02d/%02d %02d:%02d:%02d\n",
-                dateStruct.Year,
-                dateStruct.Month,
-                dateStruct.Date,
-                timeStruct.Hours,
-                timeStruct.Minutes,
-                timeStruct.Seconds
+                dateStruct.year,
+                dateStruct.month,
+                dateStruct.date,
+                timeStruct.hours,
+                timeStruct.minutes,
+                timeStruct.seconds
                );
 
   // Wait
