@@ -6,11 +6,22 @@ This is a library of BM8563, the RTC for I2C connectivity.
 
 - [M5Stack M5Stick](https://docs.m5stack.com/#/en/core/m5stickc)
 - [M5Stack M5Stick Plus](https://docs.m5stack.com/#/en/core/m5stickc_plus)
+- [M5Stack Timer Camera](https://docs.m5stack.com/#/en/unit/timercam)
+- [M5Stack Timer Camera X](https://docs.m5stack.com/#/en/unit/timercam_x)
 
 ## Usage
 ```c
 #include "I2C_BM8563.h"
 #include <WiFi.h>
+
+// RTC BM8563 I2C port
+// I2C pin definition for M5Stick & M5Stick Plus
+#define BM8563_I2C_SDA 21
+#define BM8563_I2C_SCL 22
+
+// I2C pin definition for M5Stack TimerCam
+// #define BM8563_I2C_SDA 12
+// #define BM8563_I2C_SCL 14
 
 I2C_BM8563 rtc(I2C_BM8563_DEFAULT_ADDRESS, Wire1);
 
@@ -36,7 +47,7 @@ void setup() {
   configTime(9 * 3600, 0, ntpServer);
 
   // Init I2C
-  Wire1.begin(21, 22);
+  Wire1.begin(BM8563_I2C_SDA, BM8563_I2C_SCL);
 
   // Init RTC
   rtc.begin();
