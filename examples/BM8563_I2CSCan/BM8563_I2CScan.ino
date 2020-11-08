@@ -1,7 +1,7 @@
 #include <Wire.h>
 #include "I2C_BM8563.h"
 
-// I2C pin definition for M5Stick & M5Stick Plus
+// I2C pin definition for M5Stick & M5Stick Plus & M5Stack Core2
 // RTC BM8563 I2C port
 #define BM8563_I2C_SDA 21
 #define BM8563_I2C_SCL 22
