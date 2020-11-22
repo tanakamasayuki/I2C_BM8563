@@ -1,5 +1,15 @@
 #include "I2C_BM8563.h"
 
+// RTC BM8563 I2C port
+
+// I2C pin definition for M5Stick & M5Stick Plus & M5Stack Core2
+#define BM8563_I2C_SDA 21
+#define BM8563_I2C_SCL 22
+
+// I2C pin definition for M5Stack TimerCam
+// #define BM8563_I2C_SDA 12
+// #define BM8563_I2C_SCL 14
+
 I2C_BM8563 rtc(I2C_BM8563_DEFAULT_ADDRESS, Wire1);
 
 void setup() {
@@ -8,7 +18,7 @@ void setup() {
   delay(50);
 
   // Init I2C
-  Wire1.begin(21, 22);
+  Wire1.begin(BM8563_I2C_SDA, BM8563_I2C_SCL);
 
   // Init RTC
   rtc.begin();
