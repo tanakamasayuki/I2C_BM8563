@@ -9,6 +9,7 @@ This is a library of BM8563, the RTC for I2C connectivity.
 - [M5Stack Core2](https://docs.m5stack.com/#/en/core/core2)
 - [M5Stack Timer Camera](https://docs.m5stack.com/#/en/unit/timercam)
 - [M5Stack Timer Camera X](https://docs.m5stack.com/#/en/unit/timercam_x)
+- [M5Stack Core.Ink](https://docs.m5stack.com/#/en/core/coreink)
 
 ## Usage
 ```c
@@ -16,7 +17,7 @@ This is a library of BM8563, the RTC for I2C connectivity.
 #include <WiFi.h>
 
 // RTC BM8563 I2C port
-// I2C pin definition for M5Stick & M5Stick Plus & M5Stack Core2
+// I2C pin definition for M5Stick & M5Stick Plus & M5Stack Core2 & M5Stack Core.Ink
 #define BM8563_I2C_SDA 21
 #define BM8563_I2C_SCL 22
 
