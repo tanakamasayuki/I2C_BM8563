@@ -13,10 +13,9 @@ void I2C_BM8563::begin(void) {
   _i2cPort->endTransmission();
 }
 
-bool I2C_BM8563::getVoltLow()
-{
-    uint8_t data = ReadReg(0x02);
-    return data & 0x80; // RTCC_VLSEC_MASK
+bool I2C_BM8563::getVoltLow() {
+  uint8_t data = ReadReg(0x02);
+  return data & 0x80; // RTCC_VLSEC_MASK
 }
 
 uint8_t I2C_BM8563::bcd2ToByte(uint8_t value) {
@@ -115,157 +114,132 @@ void I2C_BM8563::setDate(I2C_BM8563_DateTypeDef* I2C_BM8563_DateStruct) {
   _i2cPort->endTransmission();
 }
 
-void I2C_BM8563::WriteReg(uint8_t reg, uint8_t data)
-{
-    _i2cPort->beginTransmission(0x51);
-    _i2cPort->write(reg);
-    _i2cPort->write(data);
-    _i2cPort->endTransmission();
+void I2C_BM8563::WriteReg(uint8_t reg, uint8_t data) {
+  _i2cPort->beginTransmission(_deviceAddress);
+  _i2cPort->write(reg);
+  _i2cPort->write(data);
+  _i2cPort->endTransmission();
 }
 
-uint8_t I2C_BM8563::ReadReg(uint8_t reg)
-{
-    _i2cPort->beginTransmission(0x51);
-    _i2cPort->write(reg);
-    _i2cPort->endTransmission();
-    _i2cPort->requestFrom(0x51, 1);
-    return _i2cPort->read();
+uint8_t I2C_BM8563::ReadReg(uint8_t reg) {
+  _i2cPort->beginTransmission(_deviceAddress);
+  _i2cPort->write(reg);
+  _i2cPort->endTransmission();
+  _i2cPort->requestFrom(_deviceAddress, 1);
+  return _i2cPort->read();
 }
 
-int I2C_BM8563::SetAlarmIRQ(int afterSeconds)
-{
-    uint8_t reg_value = 0;
-    reg_value = ReadReg(0x01);
+int I2C_BM8563::SetAlarmIRQ(int afterSeconds) {
+  uint8_t reg_value = 0;
+  reg_value = ReadReg(0x01);
 
-    if (afterSeconds < 0)
-    {
-        reg_value &= ~(1 << 0);
-        WriteReg(0x01, reg_value);
-        reg_value = 0x03;
-        WriteReg(0x0E, reg_value);
-        return -1;
-    }
-
-    uint8_t type_value = 2;
-    uint8_t div = 1;
-    if (afterSeconds > 255)
-    {
-        div = 60;
-        type_value = 0x83;
-    }
-    else
-    {
-        type_value = 0x82;
-    }
-
-    afterSeconds = (afterSeconds / div) & 0xFF;
-    WriteReg(0x0F, afterSeconds);
-    WriteReg(0x0E, type_value);
-
-    reg_value |= (1 << 0);
-    reg_value &= ~(1 << 7);
+  if (afterSeconds < 0) {
+    reg_value &= ~(1 << 0);
     WriteReg(0x01, reg_value);
-    return afterSeconds * div;
+    reg_value = 0x03;
+    WriteReg(0x0E, reg_value);
+    return -1;
+  }
+
+  uint8_t type_value = 2;
+  uint8_t div = 1;
+  if (afterSeconds > 255) {
+    div = 60;
+    type_value = 0x83;
+  } else {
+    type_value = 0x82;
+  }
+
+  afterSeconds = (afterSeconds / div) & 0xFF;
+  WriteReg(0x0F, afterSeconds);
+  WriteReg(0x0E, type_value);
+
+  reg_value |= (1 << 0);
+  reg_value &= ~(1 << 7);
+  WriteReg(0x01, reg_value);
+  return afterSeconds * div;
 }
 
-int I2C_BM8563::SetAlarmIRQ(const I2C_BM8563_TimeTypeDef &I2C_BM8563_TimeStruct)
-{
-    uint8_t irq_enable = false;
-    uint8_t out_buf[4] = {0x80, 0x80, 0x80, 0x80};
+int I2C_BM8563::SetAlarmIRQ(const I2C_BM8563_TimeTypeDef &I2C_BM8563_TimeStruct) {
+  uint8_t irq_enable = false;
+  uint8_t out_buf[4] = {0x80, 0x80, 0x80, 0x80};
 
-    if (I2C_BM8563_TimeStruct.minutes >= 0)
-    {
-        irq_enable = true;
-        out_buf[0] = byteToBcd2(I2C_BM8563_TimeStruct.minutes) & 0x7f;
-    }
+  if (I2C_BM8563_TimeStruct.minutes >= 0) {
+    irq_enable = true;
+    out_buf[0] = byteToBcd2(I2C_BM8563_TimeStruct.minutes) & 0x7f;
+  }
 
-    if (I2C_BM8563_TimeStruct.hours >= 0)
-    {
-        irq_enable = true;
-        out_buf[1] = byteToBcd2(I2C_BM8563_TimeStruct.hours) & 0x3f;
-    }
+  if (I2C_BM8563_TimeStruct.hours >= 0) {
+    irq_enable = true;
+    out_buf[1] = byteToBcd2(I2C_BM8563_TimeStruct.hours) & 0x3f;
+  }
 
-    out_buf[2] = 0x00;
-    out_buf[3] = 0x00;
+  out_buf[2] = 0x00;
+  out_buf[3] = 0x00;
 
-    uint8_t reg_value = ReadReg(0x01);
+  uint8_t reg_value = ReadReg(0x01);
 
-    if (irq_enable)
-    {
-        reg_value |= (1 << 1);
-    }
-    else
-    {
-        reg_value &= ~(1 << 1);
-    }
+  if (irq_enable) {
+    reg_value |= (1 << 1);
+  } else {
+    reg_value &= ~(1 << 1);
+  }
 
-    for (int i = 0; i < 4; i++)
-    {
-        WriteReg(0x09 + i, out_buf[i]);
-    }
-    WriteReg(0x01, reg_value);
+  for (int i = 0; i < 4; i++) {
+    WriteReg(0x09 + i, out_buf[i]);
+  }
+  WriteReg(0x01, reg_value);
 
-    return irq_enable ? 1 : 0;
+  return irq_enable ? 1 : 0;
 }
 
-int I2C_BM8563::SetAlarmIRQ(const I2C_BM8563_DateTypeDef &I2C_BM8563_DateStruct, const I2C_BM8563_TimeTypeDef &I2C_BM8563_TimeStruct)
-{
-    uint8_t irq_enable = false;
-    uint8_t out_buf[4] = {0x80, 0x80, 0x80, 0x80};
+int I2C_BM8563::SetAlarmIRQ(const I2C_BM8563_DateTypeDef &I2C_BM8563_DateStruct, const I2C_BM8563_TimeTypeDef &I2C_BM8563_TimeStruct) {
+  uint8_t irq_enable = false;
+  uint8_t out_buf[4] = {0x80, 0x80, 0x80, 0x80};
 
-    if (I2C_BM8563_TimeStruct.minutes >= 0)
-    {
-        irq_enable = true;
-        out_buf[0] = byteToBcd2(I2C_BM8563_TimeStruct.minutes) & 0x7f;
-    }
+  if (I2C_BM8563_TimeStruct.minutes >= 0) {
+    irq_enable = true;
+    out_buf[0] = byteToBcd2(I2C_BM8563_TimeStruct.minutes) & 0x7f;
+  }
 
-    if (I2C_BM8563_TimeStruct.hours >= 0)
-    {
-        irq_enable = true;
-        out_buf[1] = byteToBcd2(I2C_BM8563_TimeStruct.hours) & 0x3f;
-    }
+  if (I2C_BM8563_TimeStruct.hours >= 0) {
+    irq_enable = true;
+    out_buf[1] = byteToBcd2(I2C_BM8563_TimeStruct.hours) & 0x3f;
+  }
 
-    if (I2C_BM8563_DateStruct.date >= 0)
-    {
-        irq_enable = true;
-        out_buf[2] = byteToBcd2(I2C_BM8563_DateStruct.date) & 0x3f;
-    }
+  if (I2C_BM8563_DateStruct.date >= 0) {
+    irq_enable = true;
+    out_buf[2] = byteToBcd2(I2C_BM8563_DateStruct.date) & 0x3f;
+  }
 
-    if (I2C_BM8563_DateStruct.weekDay >= 0)
-    {
-        irq_enable = true;
-        out_buf[3] = byteToBcd2(I2C_BM8563_DateStruct.weekDay) & 0x07;
-    }
+  if (I2C_BM8563_DateStruct.weekDay >= 0) {
+    irq_enable = true;
+    out_buf[3] = byteToBcd2(I2C_BM8563_DateStruct.weekDay) & 0x07;
+  }
 
-    uint8_t reg_value = ReadReg(0x01);
+  uint8_t reg_value = ReadReg(0x01);
 
-    if (irq_enable)
-    {
-        reg_value |= (1 << 1);
-    }
-    else
-    {
-        reg_value &= ~(1 << 1);
-    }
+  if (irq_enable) {
+    reg_value |= (1 << 1);
+  } else {
+    reg_value &= ~(1 << 1);
+  }
 
-    for (int i = 0; i < 4; i++)
-    {
-        WriteReg(0x09 + i, out_buf[i]);
-    }
-    WriteReg(0x01, reg_value);
+  for (int i = 0; i < 4; i++) {
+    WriteReg(0x09 + i, out_buf[i]);
+  }
+  WriteReg(0x01, reg_value);
 
-    return irq_enable ? 1 : 0;
+  return irq_enable ? 1 : 0;
 }
 
-void I2C_BM8563::clearIRQ()
-{
-    uint8_t data = ReadReg(0x01);
-    WriteReg(0x01, data & 0xf3);
+void I2C_BM8563::clearIRQ() {
+  uint8_t data = ReadReg(0x01);
+  WriteReg(0x01, data & 0xf3);
 }
 
-void I2C_BM8563::disableIRQ()
-{
-    clearIRQ();
-    uint8_t data = ReadReg(0x01);
-    WriteReg(0x01, data & 0xfC);
+void I2C_BM8563::disableIRQ() {
+  clearIRQ();
+  uint8_t data = ReadReg(0x01);
+  WriteReg(0x01, data & 0xfC);
 }

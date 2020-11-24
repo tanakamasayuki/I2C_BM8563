@@ -2,23 +2,22 @@
 #include "I2C_BM8563.h"
 
 // pin definitions for M5Stack TimerCam
-#define POWER_HOLD_PIN 33
-#define LED_PIN 2
+//#define POWER_HOLD_PIN 33
+//#define LED_PIN 2
 // RTC BM8563 I2C port
-#define BM8563_I2C_SDA 12
-#define BM8563_I2C_SCL 14
+//#define BM8563_I2C_SDA 12
+//#define BM8563_I2C_SCL 14
 
 // pin definitions for M5Stack CoreInk
-//#define POWER_HOLD_PIN 12
-//#define LED_PIN 10
+#define POWER_HOLD_PIN 12
+#define LED_PIN 10
 // RTC BM8563 I2C port
-//#define BM8563_I2C_SDA 21
-//#define BM8563_I2C_SCL 22
+#define BM8563_I2C_SDA 21
+#define BM8563_I2C_SCL 22
 
 I2C_BM8563 rtc(I2C_BM8563_DEFAULT_ADDRESS, Wire1);
 
-void bat_init()
-{
+void bat_init() {
   pinMode(POWER_HOLD_PIN, OUTPUT);
   digitalWrite(POWER_HOLD_PIN, 1);
 }
@@ -62,9 +61,9 @@ void loop() {
                 timeStruct.seconds
                );
 
-  digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on (HIGH is the voltage level)
-  delay(1000);                       // wait for a second
-  digitalWrite(LED_BUILTIN, LOW);    // turn the LED off by making the voltage LOW
+  digitalWrite(LED_PIN, HIGH);   // turn the LED on (HIGH is the voltage level)
+  delay(1000);                   // wait for a second
+  digitalWrite(LED_PIN, LOW);    // turn the LED off by making the voltage LOW
 
   rtc.SetAlarmIRQ(5);
   delay(10);

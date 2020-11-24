@@ -9,7 +9,7 @@ This is a library of BM8563, the RTC for I2C connectivity.
 - [M5Stack Core2](https://docs.m5stack.com/#/en/core/core2)
 - [M5Stack Timer Camera](https://docs.m5stack.com/#/en/unit/timercam)
 - [M5Stack Timer Camera X](https://docs.m5stack.com/#/en/unit/timercam_x)
-- [M5Stack Core.Ink](https://docs.m5stack.com/#/en/core/coreink)
+- [M5Stack CoreInk](https://docs.m5stack.com/#/en/core/coreink)
 
 ## Usage
 ```c
