@@ -13,6 +13,12 @@ void I2C_BM8563::begin(void) {
   _i2cPort->endTransmission();
 }
 
+bool I2C_BM8563::getVoltLow()
+{
+    uint8_t data = ReadReg(0x02);
+    return data & 0x80; // RTCC_VLSEC_MASK
+}
+
 uint8_t I2C_BM8563::bcd2ToByte(uint8_t value) {
   uint8_t tmp = 0;
   tmp = ((uint8_t)(value & (uint8_t)0xF0) >> (uint8_t)0x4) * 10;

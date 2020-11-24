@@ -25,6 +25,7 @@ class I2C_BM8563 {
     I2C_BM8563(uint8_t deviceAddress = I2C_BM8563_DEFAULT_ADDRESS, TwoWire &i2cPort = Wire);
 
     void begin(void);
+    bool getVoltLow();
 
     void getTime(I2C_BM8563_TimeTypeDef* I2C_BM8563_TimeStruct);
     void getDate(I2C_BM8563_DateTypeDef* I2C_BM8563_DateStruct);
