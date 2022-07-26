@@ -40,7 +40,7 @@ void I2C_BM8563::getTime(I2C_BM8563_TimeTypeDef* I2C_BM8563_TimeStruct) {
 
   _i2cPort->beginTransmission(_deviceAddress);
   _i2cPort->write(0x02);
-  _i2cPort->endTransmission();
+  _i2cPort->endTransmission(false);
   _i2cPort->requestFrom(_deviceAddress, 3);
 
   while (_i2cPort->available()) {
@@ -72,7 +72,7 @@ void I2C_BM8563::getDate(I2C_BM8563_DateTypeDef* I2C_BM8563_DateStruct) {
 
   _i2cPort->beginTransmission(_deviceAddress);
   _i2cPort->write(0x05);
-  _i2cPort->endTransmission();
+  _i2cPort->endTransmission(false);
   _i2cPort->requestFrom(_deviceAddress, 4);
 
   while (_i2cPort->available()) {
@@ -124,7 +124,7 @@ void I2C_BM8563::WriteReg(uint8_t reg, uint8_t data) {
 uint8_t I2C_BM8563::ReadReg(uint8_t reg) {
   _i2cPort->beginTransmission(_deviceAddress);
   _i2cPort->write(reg);
-  _i2cPort->endTransmission();
+  _i2cPort->endTransmission(false);
   _i2cPort->requestFrom(_deviceAddress, 1);
   return _i2cPort->read();
 }
