@@ -174,8 +174,8 @@ int I2C_BM8563::SetAlarmIRQ(const I2C_BM8563_TimeTypeDef &I2C_BM8563_TimeStruct)
     out_buf[1] = byteToBcd2(I2C_BM8563_TimeStruct.hours) & 0x3f;
   }
 
-  out_buf[2] = 0x00;
-  out_buf[3] = 0x00;
+  out_buf[2] = 0x80;
+  out_buf[3] = 0x80;
 
   uint8_t reg_value = ReadReg(0x01);
 
