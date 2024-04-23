@@ -4,15 +4,15 @@ This is a library of BM8563, the RTC for I2C connectivity.
 
 ## Support Devices
 
+- [M5Stack Core2](https://docs.m5stack.com/#/en/core/core2)
+- [M5Stack CoreInk](https://docs.m5stack.com/#/en/core/coreink)
+- [M5Stack CoreS3](https://docs.m5stack.com/en/core/CoreS3)
+- [M5Stack Dial](https://docs.m5stack.com/en/core/M5Dial) 
 - [M5Stack M5Stick](https://docs.m5stack.com/#/en/core/m5stickc)
 - [M5Stack M5Stick Plus](https://docs.m5stack.com/#/en/core/m5stickc_plus)
 - [M5Stack M5StickC Plus2](https://docs.m5stack.com/en/core/M5StickC%20PLUS2)
-- [M5Stack Core2](https://docs.m5stack.com/#/en/core/core2)
-- [M5Stack CoreS3](https://docs.m5stack.com/en/core/CoreS3)
 - [M5Stack Timer Camera](https://docs.m5stack.com/#/en/unit/timercam)
 - [M5Stack Timer Camera X](https://docs.m5stack.com/#/en/unit/timercam_x)
-- [M5Stack CoreInk](https://docs.m5stack.com/#/en/core/coreink)
-- [M5Stack Dial](https://docs.m5stack.com/en/core/M5Dial) 
 
 ## Usage
 ```c
