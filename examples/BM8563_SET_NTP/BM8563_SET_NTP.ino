@@ -30,7 +30,7 @@ void setup() {
   }
   Serial.println(" CONNECTED");
 
-  // Set ntp time to local
+  // Set ntp time to local (GMT+9)
   configTime(9 * 3600, 0, ntpServer);
 
   // Init I2C
