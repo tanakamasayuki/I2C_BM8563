@@ -6,6 +6,10 @@
 #define BM8563_I2C_SDA 21
 #define BM8563_I2C_SCL 22
 
+// I2C pin definition for M5Stack Dial
+//#define BM8563_I2C_SDA 11
+//#define BM8563_I2C_SCL 12
+
 // I2C pin definition for M5Stack TimerCam
 // #define BM8563_I2C_SDA 12
 // #define BM8563_I2C_SCL 14
